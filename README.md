@@ -1,4 +1,4 @@
-React-Native 导航联系
+React-Native 导航练习Demo
 ===
 ## ToDo List
 1. 基础tabHost 导航栏
