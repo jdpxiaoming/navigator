@@ -24,8 +24,11 @@ export default class HomeTab extends React.Component {
   render() {
     return (
       <ScrollableTabView>
-        <FirstPage tabLabel = "First" />
-        <SecondPage tabLabel = "Second" />
+        <FirstPage tabLabel = "今日装" />
+        <SecondPage tabLabel = "春" />
+        <SecondPage tabLabel = "夏" />
+        <SecondPage tabLabel = "秋" />
+        <SecondPage tabLabel = "冬" />
       </ScrollableTabView>
     );
   }

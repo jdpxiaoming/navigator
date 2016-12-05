@@ -40,10 +40,18 @@ export default class MainPage extends React.Component {
           {<HomeFragment navigator={this.props.navigator}/>}
         </TabNavigator.Item>
         <TabNavigator.Item
+          selected={this.state.selectedTab === 'cangku'}
+          title="仓库"
+          renderIcon={() => <Image style={styles.imageTag} source={require('../image/ic_find_latest.png')} />}
+          renderSelectedIcon={() => <Image style={styles.imageTag} source={require('../image/ic_feed_share_entry.png')} />}
+          onPress={() => this.setState({ selectedTab: 'cangku' })}>
+          {<FirstPage navigator={this.props.navigator}/>}
+        </TabNavigator.Item>
+        <TabNavigator.Item
           selected={this.state.selectedTab === 'profile'}
           title="我的"
-          renderIcon={() => <Image style={styles.imageTag} source={this.state.personNormal} />}
-          renderSelectedIcon={() => <Image style={styles.imageTag} source={this.state.personSelected} />}
+          renderIcon={() => <Image style={styles.imageTag} source={require('../image/ic_find_charts.png')} />}
+          renderSelectedIcon={() => <Image style={styles.imageTag} source={require('../image/ic_feed_follow.png')} />}
           onPress={() => this.setState({ selectedTab: 'profile' })}>
           {<SecondPage navigator={this.props.navigator}/>}
         </TabNavigator.Item>
