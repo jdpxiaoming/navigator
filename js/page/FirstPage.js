@@ -17,7 +17,9 @@ import WeatherInfo from './WeatherInfo';
 export default class FirstPage extends React.Component {
   constructor(props){
     super(props);
-    this.state = {};
+    this.state = {
+      mData:[]
+    };
   }
   _pressButton() {
     const { navigator } = this.props ;
@@ -37,8 +39,21 @@ export default class FirstPage extends React.Component {
       });
     }
   }
+  //load data ．　
+  componentDidMount(){
+    this._fetchData();
+  }
 
   render() {
+      var date = '2016-12-01';
+      var temp = '10';
+      var wind = '东　３级';
+      if(this.state.mData.length !== 0){
+          let cast = this.state.mData[0];
+          date = cast.date;
+          temp = '白天: '+cast.dayweather+cast.daytemp +"°";
+          wind =  cast.daywind+'风'+' '+cast.daypower+'级';
+      }
       return (
           <ScrollView style={styles.container}>
           <ToolbarAndroid
@@ -53,30 +68,9 @@ export default class FirstPage extends React.Component {
             <TouchableOpacity onPress={this._pressWeahter.bind(this)} >
               <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
             </TouchableOpacity>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
-            <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
+            <Text style={styles.texter}>{date} </Text>
+            <Text style={styles.texter}>{temp}</Text>
+            <Text style={styles.texter}>{wind} </Text>
             <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
             <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
             <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
@@ -84,6 +78,41 @@ export default class FirstPage extends React.Component {
             <Text style={styles.texter}>Weather [Suzhou JiangSu]  ! </Text>
           </ScrollView>
       );
+  }
+
+  _fetchData() {
+    var url ="http://poe.leanapp.cn/getWeather?type=all"
+    fetch(url)
+      .then((response) => response.json())
+      .then((responseData) => {
+        let forecasts = responseData.forecasts;
+        if(forecasts.length !== 0){
+          let object = forecasts[0];
+          let data = object.casts;
+          var casts = [];
+          for(let i in data){
+            let cast = {
+              date: data[i].date,
+              week: data[i].week,
+              dayweather: data[i].dayweather,
+              nightweather: data[i].nightweather,
+              daytemp: data[i].daytemp,
+              nighttemp: data[i].nighttemp,
+              daywind: data[i].daywind,
+              nightwind: data[i].nightwind,
+              daypower: data[i].daypower,
+              nightpower: data[i].nightpower
+            }
+            casts.push(cast);
+          }
+
+          if(casts.length !== 0 ){
+            this.setState({
+              mData: casts
+            });
+          }
+        }
+      }).done();
   }
 }
 

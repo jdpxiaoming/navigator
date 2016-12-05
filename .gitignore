@@ -31,14 +31,11 @@ local.properties
 
 # node.js
 #
-.project
-npm-debug.log
 node_modules/
-.idea/
-.reploy
+npm-debug.log
 
 # BUCK
 buck-out/
 \.buckd/
 android/app/libs
-*.keystore
+android/keystores/debug.keystore
